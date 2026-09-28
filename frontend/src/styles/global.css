@@ -190,6 +190,75 @@ a {
   position: relative;
 }
 
+.site-footer .site-footer-version {
+  background: none;
+  border: 0;
+  border-radius: 4px;
+  color: var(--muted);
+  cursor: pointer;
+  font: inherit;
+  min-height: 0;
+  padding: 2px 4px;
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+  width: auto;
+}
+
+.site-footer .site-footer-version:hover,
+.site-footer .site-footer-version:focus-visible {
+  background: none;
+  color: var(--accent);
+}
+
+.modal-box.changelog-box {
+  max-width: 720px;
+  text-align: left;
+}
+
+.changelog-list {
+  max-height: min(60vh, 520px);
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.changelog-release + .changelog-release {
+  border-top: 1px solid var(--line);
+  margin-top: 18px;
+  padding-top: 18px;
+}
+
+.changelog-release h3 {
+  align-items: baseline;
+  display: flex;
+  gap: 10px;
+  margin: 0 0 8px;
+}
+
+.changelog-date {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.changelog-release p {
+  color: var(--muted);
+  line-height: 1.5;
+  margin: 0 0 12px;
+}
+
+.changelog-section h4 {
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  margin: 12px 0 6px;
+  text-transform: uppercase;
+}
+
+.changelog-section ul {
+  line-height: 1.5;
+  margin: 0;
+  padding-left: 20px;
+}
+
 @media (max-width: 640px) {
   .site-footer {
     min-height: 120px;

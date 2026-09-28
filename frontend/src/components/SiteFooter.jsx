@@ -1,4 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getHealth } from "../api/health.js";
+import { CHANGELOG } from "../constants/changelog.js";
+import ChangelogDialog from "./ChangelogDialog.jsx";
 
 // Cada onda tem dois períodos idênticos de 1440 unidades; a animação desloca
 // um período inteiro para a esquerda (ou direita), então o loop não tem emenda.
@@ -11,19 +15,40 @@ function wavePath(top, bottom) {
 }
 
 export default function SiteFooter() {
+  const [changelogOpen, setChangelogOpen] = useState(false);
+  const { data: health } = useQuery({
+    queryKey: ["health"],
+    queryFn: getHealth,
+    staleTime: Infinity,
+  });
+  const version = health?.version || CHANGELOG[0].version;
+
   return (
-    <footer className="site-footer">
-      <svg
-        className="site-footer-waves"
-        viewBox="0 0 1440 200"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-      >
-        <path className="wave-back" d={wavePath(38, 78)} />
-        <path className="wave-middle" d={wavePath(118, 88)} />
-        <path className="wave-front" d={wavePath(142, 164)} />
-      </svg>
-      <span className="site-footer-text">© 2026 Oficios RPZ. v0.2.0</span>
-    </footer>
+    <>
+      <footer className="site-footer">
+        <svg
+          className="site-footer-waves"
+          viewBox="0 0 1440 200"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <path className="wave-back" d={wavePath(38, 78)} />
+          <path className="wave-middle" d={wavePath(118, 88)} />
+          <path className="wave-front" d={wavePath(142, 164)} />
+        </svg>
+        <span className="site-footer-text">
+          © 2026 Oficios RPZ.{" "}
+          <button
+            type="button"
+            className="site-footer-version"
+            title="Ver histórico de versões"
+            onClick={() => setChangelogOpen(true)}
+          >
+            v{version}
+          </button>
+        </span>
+      </footer>
+      <ChangelogDialog open={changelogOpen} onClose={() => setChangelogOpen(false)} />
+    </>
   );
 }
