@@ -18,6 +18,9 @@
   --running-bg: #1b2733;
   --warning: #f0b429;
   --warning-bg: #332608;
+  --wave-back: #121f2a;
+  --wave-middle: #182a38;
+  --wave-front: #1f3444;
 }
 
 * {
@@ -123,11 +126,75 @@ a {
 .site-footer {
   color: var(--muted);
   font-size: 12px;
-  margin: 24px auto 0;
-  max-width: 1320px;
-  padding: 18px 28px 24px;
+  margin-top: 24px;
+  min-height: 170px;
+  overflow: hidden;
+  padding: 0 28px 22px;
+  position: relative;
   text-align: center;
   width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.site-footer-waves {
+  bottom: 0;
+  display: block;
+  height: 100%;
+  left: 0;
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
+}
+
+.site-footer-waves path {
+  animation: wave-drift linear infinite;
+}
+
+.site-footer-waves .wave-back {
+  animation-delay: -9s;
+  animation-duration: 30s;
+  fill: var(--wave-back);
+}
+
+.site-footer-waves .wave-middle {
+  animation-direction: reverse;
+  animation-delay: -4s;
+  animation-duration: 22s;
+  fill: var(--wave-middle);
+}
+
+.site-footer-waves .wave-front {
+  animation-delay: -11s;
+  animation-duration: 16s;
+  fill: var(--wave-front);
+}
+
+@keyframes wave-drift {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-1440px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-footer-waves path {
+    animation: none;
+  }
+}
+
+.site-footer-text {
+  position: relative;
+}
+
+@media (max-width: 640px) {
+  .site-footer {
+    min-height: 120px;
+    padding: 0 16px 16px;
+  }
 }
 
 .login-shell {

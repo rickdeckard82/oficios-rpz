@@ -2,6 +2,7 @@ import React from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import Nav from "./Nav.jsx";
 import { useAuth } from "../auth/AuthContext.jsx";
+import SiteFooter from "./SiteFooter.jsx";
 
 export default function Layout() {
   const { user, logout } = useAuth();
@@ -30,7 +31,7 @@ export default function Layout() {
       <div className="container">
         <Outlet />
       </div>
-      <footer className="site-footer">© 2026 Oficios RPZ. v0.2.0</footer>
+      <SiteFooter />
     </div>
   );
 }

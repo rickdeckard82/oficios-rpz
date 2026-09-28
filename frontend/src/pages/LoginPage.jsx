@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext.jsx";
+import SiteFooter from "../components/SiteFooter.jsx";
 
 export default function LoginPage() {
   const { status, login } = useAuth();
@@ -71,7 +72,7 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
-      <footer className="site-footer">© 2026 Oficios RPZ. v0.2.0</footer>
+      <SiteFooter />
     </div>
   );
 }
