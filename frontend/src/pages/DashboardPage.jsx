@@ -3,7 +3,17 @@ import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getDashboard } from "../api/dashboard.js";
 import Badge from "../components/Badge.jsx";
+import DonutChart from "../components/DonutChart.jsx";
+import MonthlyBarChart from "../components/MonthlyBarChart.jsx";
 import { DEPLOYMENT_LABELS } from "../constants/deployments.js";
+
+function statusSlices(total, active, removable) {
+  return [
+    { key: "active", label: "Em prazo", value: Math.max(active - removable, 0), className: "is-active" },
+    { key: "removable", label: "Removíveis", value: removable, className: "is-removable" },
+    { key: "inactive", label: "Inativos", value: Math.max(total - active, 0), className: "is-inactive" },
+  ];
+}
 
 function formatDate(value) {
   if (!value) return "—";
@@ -74,7 +84,7 @@ export default function DashboardPage() {
         </article>
       </div>
 
-      <div className="grid-two">
+      <div className="grid-two dashboard-grid">
         <div>
           <h2>Ofícios recentes</h2>
           <table>
@@ -157,6 +167,17 @@ export default function DashboardPage() {
               ))}
             </tbody>
           </table>
+
+          <div className="dashboard-charts">
+            <DonutChart
+              title="Domínios"
+              slices={statusSlices(data.total_domains, data.active_domains, data.removable_domains)}
+            />
+            <DonutChart title="IPs" slices={statusSlices(data.total_ips, data.active_ips, data.removable_ips)} />
+            {data.offices_by_month && (
+              <MonthlyBarChart title="Ofícios por mês" items={data.offices_by_month} />
+            )}
+          </div>
         </div>
       </div>
     </div>

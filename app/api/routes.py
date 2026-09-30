@@ -1626,6 +1626,28 @@ def update_parameter_settings():
     return jsonify(serialize_parameter_settings(settings))
 
 
+def offices_by_month(today, months=12):
+    """Quantidade de ofícios por mês (data de expedição, ou de cadastro) nos últimos meses."""
+    keys = []
+    year, month = today.year, today.month
+    for _ in range(months):
+        keys.append((year, month))
+        year, month = (year, month - 1) if month > 1 else (year - 1, 12)
+    keys.reverse()
+
+    counts = dict.fromkeys(keys, 0)
+    rows = db.session.query(UploadBatch.expedition_date, UploadBatch.created_at).all()
+    for expedition_date, created_at in rows:
+        reference = expedition_date or (created_at.date() if created_at else None)
+        if reference is None:
+            continue
+        key = (reference.year, reference.month)
+        if key in counts:
+            counts[key] += 1
+
+    return [{"month": f"{year:04d}-{month:02d}", "count": counts[(year, month)]} for year, month in keys]
+
+
 @api_bp.route("/dashboard", methods=["GET"])
 @require_auth
 def dashboard_metrics():
@@ -1667,6 +1689,7 @@ def dashboard_metrics():
             for batch in batches
         ],
         recent_deployments=[serialize_deployment(deployment) for deployment in deployments],
+        offices_by_month=offices_by_month(today),
     )
 
 
